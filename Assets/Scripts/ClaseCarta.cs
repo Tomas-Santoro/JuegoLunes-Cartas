@@ -1,6 +1,7 @@
 public class Carta
 {
     //holas
+    //hola soy pepe
     public string tipo; // "DAÑO", "BUFO", "DEFENSA", etc.
 
     public Carta(string tipo)
