@@ -1,50 +1,50 @@
 using UnityEngine;
-using UnityEngine.UI;  // Necesario para trabajar con botones
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PanelOpciones : MonoBehaviour
 {
-    public Button btnAtacar;  // Botón de "Atacar"
-    public Button btnCancelar;  // Botón de "Cancelar"
-    public GameObject dialogPanel;  // El panel de opciones
+    public Button btnAtacar;
+    public Button btnCancelar;
+    public GameObject dialogPanel;
     private Transform targetObject;
 
     private MovimientoJugador movimientoJugador;
+    private bool esperandoCambioDeEscena = false; // Para esperar a que termine de moverse
 
     void Start()
     {
-        // Asigna los botones
-        btnAtacar.onClick.AddListener(OnAtacar);  // Asocia el método "OnAtacar" al botón de atacar
-        btnCancelar.onClick.AddListener(OnCancelar);  // Asocia el método "OnCancelar" al botón de cancelar
+        btnAtacar.onClick.AddListener(OnAtacar);
+        btnCancelar.onClick.AddListener(OnCancelar);
 
-        // Encuentra el script de movimiento
         movimientoJugador = FindObjectOfType<MovimientoJugador>();
     }
 
-    // Método que se llama al presionar "Atacar"
+    void Update()
+    {
+        if (esperandoCambioDeEscena && movimientoJugador != null && !movimientoJugador.estaMoviendose)
+        {
+            SceneManager.LoadScene("Duelo");
+        }
+    }
+
     void OnAtacar()
     {
         if (movimientoJugador != null && targetObject != null)
         {
-            movimientoJugador.MoverJugador(targetObject);  // Mueve al jugador hacia el objeto seleccionado
-            dialogPanel.SetActive(false);  // Cierra el panel de opciones
+            movimientoJugador.MoverJugador(targetObject);
+            dialogPanel.SetActive(false);
+            esperandoCambioDeEscena = true;
         }
     }
 
-    // Método que se llama al presionar "Cancelar"
     void OnCancelar()
     {
-        dialogPanel.SetActive(false);  // Solo cierra el panel sin hacer nada más
+        dialogPanel.SetActive(false);
     }
 
-    // Método para configurar el objeto al que se moverá el jugador
     public void ConfigurarObjetivo(Transform objeto)
     {
         targetObject = objeto;
     }
-
-
-    //prueba comit
-
-    //asdasdasda
 }
