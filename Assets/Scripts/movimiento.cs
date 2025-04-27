@@ -1,39 +1,30 @@
-using System.Collections;  // Agrega esta línea
 using UnityEngine;
 
 public class MovimientoJugador : MonoBehaviour
 {
-    public Transform player;  // El objeto del jugador
-    public float moveSpeed = 5f;  // Velocidad de movimiento
-    private Transform targetObject;  // Objeto al que se moverá el jugador
+    public bool estaMoviendose = false;
+    public float velocidad = 5f;
+    private Vector3 objetivo;
 
-    // Asigna el objeto de inicio al principio
-    //HOLA BRUNO
-    public Transform startPosition;
-
-    void Start()
+    void Update()
     {
-        // Establece la posición inicial del jugador
-        if (startPosition != null)
+        if (Vector3.Distance(transform.position, objetivo) > 0.1f)
         {
-            player.position = startPosition.position;
+            estaMoviendose = true;
+            transform.position = Vector3.MoveTowards(transform.position, objetivo, velocidad * Time.deltaTime);
+        }
+        else
+        {
+            estaMoviendose = false;
         }
     }
 
-    // Método para mover el jugador hacia el objetivo
-    public void MoverJugador(Transform objetivo)
+    public void MoverJugador(Transform destino)
     {
-        targetObject = objetivo;
-        StartCoroutine(MoverHaciaObjeto());
-    }
-
-    // Corrutina para mover al jugador suavemente hacia el objetivo
-    private IEnumerator MoverHaciaObjeto()
-    {
-        while (Vector3.Distance(player.position, targetObject.position) > 0.1f)
+        if (destino != null)
         {
-            player.position = Vector3.MoveTowards(player.position, targetObject.position, moveSpeed * Time.deltaTime);
-            yield return null;
+            objetivo = destino.position;
         }
     }
 }
+
