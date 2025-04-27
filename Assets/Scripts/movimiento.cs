@@ -8,6 +8,7 @@ public class MovimientoJugador : MonoBehaviour
     private Transform targetObject;  // Objeto al que se moverá el jugador
 
     // Asigna el objeto de inicio al principio
+    //HOLA BRUNO
     public Transform startPosition;
 
     void Start()
