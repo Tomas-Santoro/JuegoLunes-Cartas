@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;  // Necesario para trabajar con botones
+using UnityEngine.SceneManagement;
 
 public class PanelOpciones : MonoBehaviour
 {
