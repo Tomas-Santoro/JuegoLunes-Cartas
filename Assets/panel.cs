@@ -6,9 +6,9 @@ public class PanelOpciones : MonoBehaviour
     public Button btnAtacar;  // Botón de "Atacar"
     public Button btnCancelar;  // Botón de "Cancelar"
     public GameObject dialogPanel;  // El panel de opciones
-    private Transform targetObject;  
+    private Transform targetObject;
 
-    private MovimientoJugador movimientoJugador;  
+    private MovimientoJugador movimientoJugador;
 
     void Start()
     {
@@ -41,4 +41,9 @@ public class PanelOpciones : MonoBehaviour
     {
         targetObject = objeto;
     }
+
+
+    //prueba comit
+
+    //asdasdasda
 }
