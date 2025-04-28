@@ -60,4 +60,10 @@ public class Cola<T>
 
         return primero.valor;
     }
+
+    public void Limpiar()
+    {
+        primero = null;
+        ultimo = null;
+    }
 }

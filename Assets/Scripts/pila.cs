@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Pila<T>
 {
@@ -8,6 +9,28 @@ public class Pila<T>
     public Pila()
     {
         tope = null;
+    }
+
+    public Pila(T[] arreglo)
+    {
+        tope = null;
+
+        // Recorrer el arreglo desde el final al principio
+        for (int i = arreglo.Length - 1; i >= 0; i--)
+        {
+            Apilar(arreglo[i]);
+        }
+    }
+
+    public Pila(List<T> lista)
+    {
+        tope = null;
+
+        // Recorrer la lista desde el final hacia el principio
+        for (int i = lista.Count - 1; i >= 0; i--)
+        {
+            Apilar(lista[i]);
+        }
     }
 
     //Apilar --- mete un nuevo elemento arriba de todo
@@ -47,4 +70,34 @@ public class Pila<T>
     {
         return tope == null;
     }
+
+    public int Contar()
+    {
+        int cantidad = 0;
+        Nodo<T> actual = tope;
+
+        while (actual != null)
+        {
+            cantidad++;
+            actual = actual.siguiente;
+        }
+
+        return cantidad;
+    }
+
+    public List<T> ALista()
+    {
+        List<T> lista = new List<T>();
+        Nodo<T> actual = tope;
+
+        while (actual != null)
+        {
+            lista.Add(actual.valor);
+            actual = actual.siguiente;
+        }
+
+        return lista;
+    }
+
+
 }

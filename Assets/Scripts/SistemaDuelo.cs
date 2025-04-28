@@ -82,8 +82,10 @@ public class SistemaDuelo : MonoBehaviour
 
         for (int i = 0; i < 2; i++)
         {
-            Carta cartaJugador = jugador.acciones.Dequeue();
-            Carta cartaIA = ia.acciones.Dequeue();
+            //Carta cartaJugador = jugador.acciones.Dequeue();
+            //Carta cartaIA = ia.acciones.Dequeue();
+            Carta cartaJugador = jugador.acciones.Desencolar();
+            Carta cartaIA = ia.acciones.Desencolar();
 
             Debug.Log($"Resolviendo duelo: Jugador({cartaJugador.tipo}) vs IA({cartaIA.tipo})");
 
