@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MazoCartas : MonoBehaviour
 {
-    private Stack<Carta> mazo = new Stack<Carta>();
+    private Pila<Carta> mazo = new Pila<Carta>();
 
     void Start()
     {
@@ -46,17 +46,17 @@ public class MazoCartas : MonoBehaviour
         // Cargar las cartas al mazo
         foreach (var carta in cartasTemporales)
         {
-            mazo.Push(carta);
+            mazo.Apilar(carta);
         }
-
-        Debug.Log("Mazo listo con " + mazo.Count + " cartas.");
+        Debug.Log("MAZO LISTO");
+       // Debug.Log("Mazo listo con " + mazo.Count + " cartas.");
     }
 
     void RobarCarta()
     {
-        if (mazo.Count > 0)
+        if (!mazo.PilaVacia())
         {
-            Carta cartaRobada = mazo.Pop();
+            Carta cartaRobada = mazo.Desapilar();
             Debug.Log("Carta robada: " + cartaRobada.tipo);
         }
         else
