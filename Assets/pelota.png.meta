@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: cf5a8434a358687498c392942272b82d
+guid: 0166e700b3c05604eac745895e3da063
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 883185887222404608
-    second: pantallaMainMenu_0
+      213: 4810488660336404380
+    second: pelota_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pantallaMainMenu_0
+      name: pelota_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1920
-        height: 1080
+        width: 348
+        height: 349
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 006978692e4b14c00800000000000000
-      internalID: 883185887222404608
+      spriteID: c97656313f942c240800000000000000
+      internalID: 4810488660336404380
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      pantallaMainMenu_0: 883185887222404608
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

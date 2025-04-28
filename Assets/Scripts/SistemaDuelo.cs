@@ -1,10 +1,19 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SistemaDuelo : MonoBehaviour
 {
     public Jugador jugador;
     public Jugador ia;
+
+    public GameObject[] slotsCartasJugador; // Los 3 botones o imágenes de las cartas
+    public GameObject cartaPrefab; // Prefab de la carta visual
+    private List<int> indicesSeleccionados = new List<int>();
+
+    public Image[] vidasJugador;
+    public Image[] vidasIA;
 
     void Start()
     {
@@ -19,13 +28,46 @@ public class SistemaDuelo : MonoBehaviour
         jugador.RobarMano();
         ia.RobarMano();
 
-        // A la IA le elegimos 2 cartas aleatorias automáticamente
+        indicesSeleccionados.Clear();
+
+        // IA elige automáticamente
         List<int> indicesIA = new List<int> { 0, 1 };
         ia.ElegirCartas(indicesIA);
 
-        // Ahora falta: dejar que el jugador elija sus 2 cartas de mano
-        Debug.Log("Jugador debe elegir sus 2 cartas.");
+        MostrarCartasJugador();
     }
+
+    void MostrarCartasJugador()
+    {
+        for (int i = 0; i < jugador.mano.Count; i++)
+        {
+            Carta carta = jugador.mano[i];
+
+            CartaUI cartaUI = slotsCartasJugador[i].GetComponent<CartaUI>();
+            cartaUI.ConfigurarCarta(carta, i, this);
+        }
+    }
+
+    public void CartaSeleccionada(int indice)
+    {
+        if (indicesSeleccionados.Contains(indice))
+        {
+            Debug.Log("Carta ya seleccionada.");
+            return;
+        }
+
+        indicesSeleccionados.Add(indice);
+
+        Carta cartaElegida = jugador.mano[indice];
+        Debug.Log($"Seleccionaste la carta: {cartaElegida.tipo}");
+
+        if (indicesSeleccionados.Count == 2)
+        {
+            jugador.ElegirCartas(indicesSeleccionados);
+            ResolverDuelos();
+        }
+    }
+
 
     public void ResolverDuelos()
     {
@@ -43,10 +85,11 @@ public class SistemaDuelo : MonoBehaviour
 
             ResolverDuelo(cartaJugador, cartaIA);
 
-            yield return new WaitForSeconds(1f); // Pequeño delay entre duelos
+            ActualizarVidas(); // Actualizamos visualmente
+
+            yield return new WaitForSeconds(1f);
         }
 
-        // Chequear si alguien perdió
         if (jugador.vida <= 0)
         {
             Debug.Log("Perdiste el duelo!");
@@ -57,8 +100,7 @@ public class SistemaDuelo : MonoBehaviour
         }
         else
         {
-            // Si nadie perdió, empezar nueva ronda
-            Debug.Log("Empieza una nueva ronda!");
+            Debug.Log("Nueva ronda!");
             EmpezarNuevaRonda();
         }
     }
@@ -105,4 +147,34 @@ public class SistemaDuelo : MonoBehaviour
             ia.tieneBuffeoActivo = false; // Se gasta el buffeo
         }
     }
+
+    public void MezclarYRobarDeNuevo()
+    {
+        if (indicesSeleccionados.Count == 0)
+        {
+            jugador.RobarMano();
+            MostrarCartasJugador();
+            Debug.Log("Se mezcló el mazo y se robaron nuevas cartas.");
+        }
+        else
+        {
+            Debug.Log("No se puede mezclar después de elegir cartas.");
+        }
+    }
+
+
+    private void ActualizarVidas()
+    {
+        for (int i = 0; i < vidasJugador.Length; i++)
+        {
+            vidasJugador[i].enabled = i < jugador.vida;
+        }
+
+        for (int i = 0; i < vidasIA.Length; i++)
+        {
+            vidasIA[i].enabled = i < ia.vida;
+        }
+    }
+
+
 }
