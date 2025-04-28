@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SistemaDuelo : MonoBehaviour
@@ -76,6 +77,9 @@ public class SistemaDuelo : MonoBehaviour
 
     private IEnumerator ResolverAcciones()
     {
+        jugador.DesactivarBuffeo();
+        ia.DesactivarBuffeo();
+
         for (int i = 0; i < 2; i++)
         {
             Carta cartaJugador = jugador.acciones.Dequeue();
@@ -93,10 +97,12 @@ public class SistemaDuelo : MonoBehaviour
         if (jugador.vida <= 0)
         {
             Debug.Log("Perdiste el duelo!");
+            SceneManager.LoadScene("Derrota");
         }
         else if (ia.vida <= 0)
         {
             Debug.Log("Ganaste el duelo!");
+            SceneManager.LoadScene("SampleScene");
         }
         else
         {
@@ -173,6 +179,15 @@ public class SistemaDuelo : MonoBehaviour
         for (int i = 0; i < vidasIA.Length; i++)
         {
             vidasIA[i].enabled = i < ia.vida;
+        }
+    }
+
+    public void DeseleccionarCarta(int indice)
+    {
+        if (indicesSeleccionados.Contains(indice))
+        {
+            indicesSeleccionados.Remove(indice);
+            Debug.Log($"Deseleccionaste la carta: {jugador.mano[indice].tipo}");
         }
     }
 

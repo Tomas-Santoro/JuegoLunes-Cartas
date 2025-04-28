@@ -10,6 +10,15 @@ public class MovimientoJugador : MonoBehaviour
 
     private bool cambiarEscenaCuandoTermine = false; // ✅ NUEVO
 
+    void Start()
+    {
+        if (DatosJuego.instancia != null)
+        {
+            transform.position = DatosJuego.instancia.ultimaPosicionJugador;
+        }
+    }
+
+
     void Update()
     {
         if (tieneObjetivo && Vector3.Distance(transform.position, objetivo) > 0.1f)
@@ -25,6 +34,11 @@ public class MovimientoJugador : MonoBehaviour
 
                 if (cambiarEscenaCuandoTermine)
                 {
+                    // ✅ Guardamos la posición antes de cargar la nueva escena
+                    if (DatosJuego.instancia != null)
+                    {
+                        DatosJuego.instancia.ultimaPosicionJugador = transform.position;
+                    }
                     SceneManager.LoadScene("Duelo");
                 }
             }

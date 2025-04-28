@@ -9,10 +9,21 @@ public class CartaUI : MonoBehaviour
 
     public TMP_Text textoTipoCarta;
     private Button boton;
+    private Image imagenFondo; // Fondo de la carta para cambiar el color
+
+    private Color colorOriginal = Color.blue;
+    public Color colorSeleccionado = Color.cyan; // Color cuando la carta está seleccionada
+
+    private bool estaSeleccionada = false;
 
     void Awake()
     {
         boton = GetComponent<Button>();
+        imagenFondo = GetComponent<Image>();
+
+        if (imagenFondo != null)
+            colorOriginal = imagenFondo.color;
+
         if (boton != null)
         {
             boton.onClick.AddListener(SeleccionarCarta);
@@ -24,11 +35,32 @@ public class CartaUI : MonoBehaviour
         textoTipoCarta.text = carta.tipo.ToString();
         indiceEnMano = indice;
         sistemaDuelo = duelo;
+
+        // Siempre que configuramos, la carta arranca no seleccionada
+        estaSeleccionada = false;
+        if (imagenFondo != null)
+            imagenFondo.color = colorOriginal;
     }
 
     public void SeleccionarCarta()
     {
-        Debug.Log("Clickeaste una carta!"); // Primer prueba
-        sistemaDuelo.CartaSeleccionada(indiceEnMano);
+        if (estaSeleccionada)
+        {
+            // Si ya estaba seleccionada -> la deseleccionamos
+            estaSeleccionada = false;
+            if (imagenFondo != null)
+                imagenFondo.color = colorOriginal;
+
+            sistemaDuelo.DeseleccionarCarta(indiceEnMano);
+        }
+        else
+        {
+            // Si no estaba seleccionada -> la seleccionamos
+            estaSeleccionada = true;
+            if (imagenFondo != null)
+                imagenFondo.color = colorSeleccionado;
+
+            sistemaDuelo.CartaSeleccionada(indiceEnMano);
+        }
     }
 }

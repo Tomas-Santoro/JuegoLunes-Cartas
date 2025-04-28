@@ -31,4 +31,9 @@ public class Jugador
     {
         tieneBuffeoActivo = true;
     }
+
+    public void DesactivarBuffeo()
+    {
+        tieneBuffeoActivo = false;
+    }
 }
