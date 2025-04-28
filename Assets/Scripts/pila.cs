@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Pila<T>
@@ -17,16 +18,14 @@ public class Pila<T>
     }
 
     //Desapilar --- saca el de más arriba
-    public void Desapilar()
+    public T Desapilar()
     {
-        if (!PilaVacia())
-        {
-            tope = tope.siguiente;
-        }
-        else
-        {
-            Debug.Log("Pila vacía.");
-        }
+        if (PilaVacia())
+            Debug.Log("La pila está vacía.");
+
+        T valor = tope.valor;   //Guarda el valor que está arriba
+        tope = tope.siguiente;  //Avanza la cima (elimina el nodo)
+        return valor;           //Retorna el valor guardado
     }
 
     //Tope --- muestra el de más arriba sin sacarlo
