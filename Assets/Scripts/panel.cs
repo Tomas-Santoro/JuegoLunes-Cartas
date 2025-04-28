@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class PanelOpciones : MonoBehaviour
 {
@@ -10,7 +9,6 @@ public class PanelOpciones : MonoBehaviour
     private Transform targetObject;
 
     private MovimientoJugador movimientoJugador;
-    private bool esperandoCambioDeEscena = false; // Para esperar a que termine de moverse
 
     void Start()
     {
@@ -20,21 +18,12 @@ public class PanelOpciones : MonoBehaviour
         movimientoJugador = FindObjectOfType<MovimientoJugador>();
     }
 
-    void Update()
-    {
-        if (esperandoCambioDeEscena && movimientoJugador != null && !movimientoJugador.estaMoviendose)
-        {
-            SceneManager.LoadScene("Duelo");
-        }
-    }
-
     void OnAtacar()
     {
         if (movimientoJugador != null && targetObject != null)
         {
-            movimientoJugador.MoverJugador(targetObject);
+            movimientoJugador.MoverJugador(targetObject, true); //  Le decimos que después del movimiento cambie de escena
             dialogPanel.SetActive(false);
-            esperandoCambioDeEscena = true;
         }
     }
 
