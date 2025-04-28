@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class CartaUI : MonoBehaviour
 {
     public int indiceEnMano;
@@ -15,6 +16,12 @@ public class CartaUI : MonoBehaviour
     public Color colorSeleccionado = Color.cyan; // Color cuando la carta está seleccionada
 
     private bool estaSeleccionada = false;
+
+    public Image imagenCarta;
+    public Sprite spriteAtaque;
+    public Sprite spriteDefensa;
+    public Sprite spriteBuffeo;
+
 
     void Awake()
     {
@@ -36,10 +43,28 @@ public class CartaUI : MonoBehaviour
         indiceEnMano = indice;
         sistemaDuelo = duelo;
 
+        // Cambiar la imagen según el tipo de carta
+        if (imagenCarta != null)
+        {
+            switch (carta.tipo)
+            {
+                case TipoCarta.Ataque:
+                    imagenCarta.sprite = spriteAtaque;
+                    break;
+                case TipoCarta.Defensa:
+                    imagenCarta.sprite = spriteDefensa;
+                    break;
+                case TipoCarta.Buffeo:
+                    imagenCarta.sprite = spriteBuffeo;
+                    break;
+            }
+        }
+
         // Siempre que configuramos, la carta arranca no seleccionada
         estaSeleccionada = false;
         if (imagenFondo != null)
             imagenFondo.color = colorOriginal;
+
     }
 
     public void SeleccionarCarta()
