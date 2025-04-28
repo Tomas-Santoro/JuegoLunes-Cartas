@@ -104,7 +104,19 @@ public class SistemaDuelo : MonoBehaviour
         else if (ia.vida <= 0)
         {
             Debug.Log("Ganaste el duelo!");
-            SceneManager.LoadScene("SampleScene");
+
+         
+            DatosJuego.instancia.batallasGanadas++;
+
+           
+            if (DatosJuego.instancia.batallasGanadas >= DatosJuego.instancia.batallasParaGanar)
+            {
+                SceneManager.LoadScene("Victoria"); 
+            }
+            else
+            {
+                SceneManager.LoadScene("SampleScene"); 
+            }
         }
         else
         {

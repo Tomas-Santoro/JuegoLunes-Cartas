@@ -6,6 +6,10 @@ public class DatosJuego : MonoBehaviour
 
     public Vector3 ultimaPosicionJugador;
 
+    
+    public int batallasGanadas = 0;
+    public int batallasParaGanar = 2; // Ganás luego de 2 batallas
+
     void Awake()
     {
         if (instancia == null)
@@ -15,7 +19,7 @@ public class DatosJuego : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject); // Evita duplicados si vuelve a crearse
+            Destroy(gameObject);
         }
     }
 }
