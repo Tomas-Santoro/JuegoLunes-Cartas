@@ -1,16 +1,21 @@
+public enum TipoCarta
+{
+    Ataque,
+    Defensa,
+    Buffeo
+}
+
 public class Carta
 {
-    //holas
-    //hola soy pepe
-    public string tipo; // "DAÑO", "BUFO", "DEFENSA", etc.
+    public TipoCarta tipo;
 
-    public Carta(string tipo)
+    public Carta(TipoCarta tipo)
     {
         this.tipo = tipo;
     }
 
     public override string ToString()
     {
-        return tipo;
+        return tipo.ToString();
     }
 }

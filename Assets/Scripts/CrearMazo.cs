@@ -11,45 +11,45 @@ public class MazoCartas : MonoBehaviour
         CrearMazo();
         RobarCarta();
         RobarCarta();
+        RobarCarta();
     }
 
     void CrearMazo()
     {
-        // Crear lista temporal con cartas para despues usar funcion mezclar 
+        // Crear lista temporal con cartas
         List<Carta> cartasTemporales = new List<Carta>
         {
-            new Carta("DAÑO"),
-            new Carta("DEFENSA"),
-            new Carta("BUFO"),
-            new Carta("DAÑO"),
-            new Carta("DEFENSA"),
-            new Carta("BUFO")
+            new Carta(TipoCarta.Ataque),
+            new Carta(TipoCarta.Defensa),
+            new Carta(TipoCarta.Buffeo),
+            new Carta(TipoCarta.Ataque),
+            new Carta(TipoCarta.Defensa),
+            new Carta(TipoCarta.Buffeo)
         };
 
         // Mostrar el orden original
-        Debug.Log(" Orden original de cartas:");
+        Debug.Log("Orden original de cartas:");
         foreach (var carta in cartasTemporales)
         {
             Debug.Log(" - " + carta.tipo);
         }
 
-        // Mezclar //NO FUNCIONAAAAAAAAAAAAAAAAAAAAAAAA
+        // Mezclar
         cartasTemporales = cartasTemporales.OrderBy(c => Random.value).ToList();
 
-        // PRUEBA PARA VER SI AGARRA EL ORDEN
-        Debug.Log(" Orden después de mezclar:");
+        Debug.Log("Orden después de mezclar:");
         foreach (var carta in cartasTemporales)
         {
             Debug.Log(" - " + carta.tipo);
         }
 
-        // Cargar las cartas al mazo (pila)
+        // Cargar las cartas al mazo
         foreach (var carta in cartasTemporales)
         {
             mazo.Push(carta);
         }
 
-        Debug.Log(" Mazo listo con " + mazo.Count + " cartas.");
+        Debug.Log("Mazo listo con " + mazo.Count + " cartas.");
     }
 
     void RobarCarta()
@@ -57,13 +57,11 @@ public class MazoCartas : MonoBehaviour
         if (mazo.Count > 0)
         {
             Carta cartaRobada = mazo.Pop();
-            Debug.Log(" Carta robada: " + cartaRobada.tipo);
+            Debug.Log("Carta robada: " + cartaRobada.tipo);
         }
         else
         {
-            Debug.Log(" No hay más cartas en el mazo.");
+            Debug.Log("No hay más cartas en el mazo.");
         }
     }
 }
-
-//prueba
