@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PanelOpciones : MonoBehaviour
@@ -6,23 +6,23 @@ public class PanelOpciones : MonoBehaviour
     public Button btnAtacar;
     public Button btnCancelar;
     public GameObject dialogPanel;
-    private Transform targetObject;
 
-    private MovimientoJugador movimientoJugador;
+    private Nodo targetNodo; // ✅ Cambiado de Transform a Nodo
+    private MapaManager mapaManager;
 
     void Start()
     {
         btnAtacar.onClick.AddListener(OnAtacar);
         btnCancelar.onClick.AddListener(OnCancelar);
 
-        movimientoJugador = FindObjectOfType<MovimientoJugador>();
+        mapaManager = FindObjectOfType<MapaManager>();
     }
 
     void OnAtacar()
     {
-        if (movimientoJugador != null && targetObject != null)
+        if (mapaManager != null && targetNodo != null)
         {
-            movimientoJugador.MoverJugador(targetObject, true); //  Le decimos que despu�s del movimiento cambie de escena
+            mapaManager.MoverJugadorANodo(targetNodo); // ✅ Usar grafo para mover
             dialogPanel.SetActive(false);
         }
     }
@@ -32,8 +32,8 @@ public class PanelOpciones : MonoBehaviour
         dialogPanel.SetActive(false);
     }
 
-    public void ConfigurarObjetivo(Transform objeto)
+    public void ConfigurarObjetivo(Nodo nodo)
     {
-        targetObject = objeto;
+        targetNodo = nodo;
     }
 }

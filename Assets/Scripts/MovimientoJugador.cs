@@ -45,13 +45,11 @@ public class MovimientoJugador : MonoBehaviour
         }
     }
 
-    public void MoverJugador(Transform destino, bool cambiarEscena = false)
+    public void MoverJugador(Vector3 destino, bool cambiarEscena = false)
     {
-        if (destino != null)
-        {
-            objetivo = destino.position;
-            tieneObjetivo = true;
-            cambiarEscenaCuandoTermine = cambiarEscena; // ✅ Guardamos si hay que cambiar de escena
-        }
+        objetivo = destino;
+        tieneObjetivo = true;
+        cambiarEscenaCuandoTermine = cambiarEscena;
     }
+
 }

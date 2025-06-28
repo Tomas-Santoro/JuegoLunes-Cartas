@@ -1,18 +1,28 @@
+﻿using System.Collections.Generic;
 using UnityEngine;
-public class Nodo<T>
-{
-    public T valor;
-    public Nodo<T> siguiente;
 
-    //Constructor principal --- valor y siguiente
-    public Nodo(T valor, Nodo<T> siguiente)
+public class Nodo
+{
+    public string nombre;           // Nombre del nodo
+    public Vector3 posicion;        // Posición en la escena
+    public List<Nodo> conexiones;   // Lista de conexiones
+    public GameObject gameObjectNodo; // ✅ Nuevo: referencia al GameObject del nodo
+
+    // Constructor actualizado con 3 parámetros
+    public Nodo(string nombre, Vector3 posicion, GameObject gameObjectNodo)
     {
-        this.valor = valor;
-        this.siguiente = siguiente;
+        this.nombre = nombre;
+        this.posicion = posicion;
+        this.gameObjectNodo = gameObjectNodo;
+        conexiones = new List<Nodo>();
     }
 
-    //Sobrecarga --- solo valor, el nodo siguiente queda en null
-    public Nodo(T valor) : this(valor, null)
+    // Método para agregar conexión
+    public void AgregarConexion(Nodo destino)
     {
+        if (!conexiones.Contains(destino))
+        {
+            conexiones.Add(destino);
+        }
     }
 }

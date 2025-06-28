@@ -1,10 +1,9 @@
-using System;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Pila<T>
 {
-    private Nodo<T> tope;
+    private NodoGenerico<T> tope;
 
     public Pila()
     {
@@ -15,7 +14,6 @@ public class Pila<T>
     {
         tope = null;
 
-        // Recorrer el arreglo desde el final al principio
         for (int i = arreglo.Length - 1; i >= 0; i--)
         {
             Apilar(arreglo[i]);
@@ -26,32 +24,31 @@ public class Pila<T>
     {
         tope = null;
 
-        // Recorrer la lista desde el final hacia el principio
         for (int i = lista.Count - 1; i >= 0; i--)
         {
             Apilar(lista[i]);
         }
     }
 
-    //Apilar --- mete un nuevo elemento arriba de todo
     public void Apilar(T elemento)
     {
-        Nodo<T> nuevo = new Nodo<T>(elemento, tope);
+        NodoGenerico<T> nuevo = new NodoGenerico<T>(elemento, tope);
         tope = nuevo;
     }
 
-    //Desapilar --- saca el de más arriba
     public T Desapilar()
     {
         if (PilaVacia())
+        {
             Debug.Log("La pila está vacía.");
+            return default(T);
+        }
 
-        T valor = tope.valor;   //Guarda el valor que está arriba
-        tope = tope.siguiente;  //Avanza la cima (elimina el nodo)
-        return valor;           //Retorna el valor guardado
+        T valor = tope.valor;
+        tope = tope.siguiente;
+        return valor;
     }
 
-    //Tope --- muestra el de más arriba sin sacarlo
     public T Tope()
     {
         if (!PilaVacia())
@@ -65,7 +62,6 @@ public class Pila<T>
         }
     }
 
-    //Pila vacía --- verifica si la pila está vacía
     public bool PilaVacia()
     {
         return tope == null;
@@ -74,7 +70,7 @@ public class Pila<T>
     public int Contar()
     {
         int cantidad = 0;
-        Nodo<T> actual = tope;
+        NodoGenerico<T> actual = tope;
 
         while (actual != null)
         {
@@ -88,7 +84,7 @@ public class Pila<T>
     public List<T> ALista()
     {
         List<T> lista = new List<T>();
-        Nodo<T> actual = tope;
+        NodoGenerico<T> actual = tope;
 
         while (actual != null)
         {
@@ -98,6 +94,4 @@ public class Pila<T>
 
         return lista;
     }
-
-
 }
