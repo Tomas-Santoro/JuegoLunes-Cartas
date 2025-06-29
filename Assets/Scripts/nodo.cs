@@ -1,23 +1,21 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class Nodo
 {
-    public string nombre;           // Nombre del nodo
-    public Vector3 posicion;        // Posición en la escena
-    public List<Nodo> conexiones;   // Lista de conexiones
-    public GameObject gameObjectNodo; // ✅ Nuevo: referencia al GameObject del nodo
+    public string nombre;
+    public Vector3 posicion;
+    public List<Nodo> conexiones;
+    public GameObject go; // ✅ Referencia al GameObject visual (nodo)
 
-    // Constructor actualizado con 3 parámetros
-    public Nodo(string nombre, Vector3 posicion, GameObject gameObjectNodo)
+    public Nodo(string nombre, Vector3 posicion, GameObject go)
     {
         this.nombre = nombre;
         this.posicion = posicion;
-        this.gameObjectNodo = gameObjectNodo;
+        this.go = go;
         conexiones = new List<Nodo>();
     }
 
-    // Método para agregar conexión
     public void AgregarConexion(Nodo destino)
     {
         if (!conexiones.Contains(destino))

@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,7 +9,7 @@ public class SistemaDuelo : MonoBehaviour
     public Jugador jugador;
     public Jugador ia;
 
-    public GameObject[] slotsCartasJugador; // Los 3 botones o im·genes de las cartas
+    public GameObject[] slotsCartasJugador; // Los 3 botones o im√°genes de las cartas
     public GameObject cartaPrefab; // Prefab de la carta visual
     private List<int> indicesSeleccionados = new List<int>();
 
@@ -31,7 +31,7 @@ public class SistemaDuelo : MonoBehaviour
 
         indicesSeleccionados.Clear();
 
-        // IA elige autom·ticamente
+        // IA elige autom√°ticamente
         List<int> indicesIA = new List<int> { 0, 1 };
         ia.ElegirCartas(indicesIA);
 
@@ -105,19 +105,24 @@ public class SistemaDuelo : MonoBehaviour
         {
             Debug.Log("Ganaste el duelo!");
 
-         
             DatosJuego.instancia.batallasGanadas++;
 
-           
+            // ‚úÖ Eliminar nodo derrotado antes de volver al mapa
+            if (DatosJuego.instancia != null)
+            {
+                DatosJuego.instancia.nodoDerrotado = DatosJuego.instancia.nodoActual;
+            }
+
             if (DatosJuego.instancia.batallasGanadas >= DatosJuego.instancia.batallasParaGanar)
             {
-                SceneManager.LoadScene("Victoria"); 
+                SceneManager.LoadScene("Victoria");
             }
             else
             {
-                SceneManager.LoadScene("SampleScene"); 
+                SceneManager.LoadScene("SampleScene");
             }
         }
+
         else
         {
             Debug.Log("Nueva ronda!");
@@ -127,43 +132,43 @@ public class SistemaDuelo : MonoBehaviour
 
     private void ResolverDuelo(Carta jugadorCarta, Carta iaCarta)
     {
-        // Combinaciones b·sicas
+        // Combinaciones b√°sicas
         if (jugadorCarta.tipo == TipoCarta.Buffeo)
         {
             jugador.AplicarBuffeo();
-            Debug.Log("Jugador aplicÛ BUFFEO.");
+            Debug.Log("Jugador aplic√≥ BUFFEO.");
         }
         if (iaCarta.tipo == TipoCarta.Buffeo)
         {
             ia.AplicarBuffeo();
-            Debug.Log("IA aplicÛ BUFFEO.");
+            Debug.Log("IA aplic√≥ BUFFEO.");
         }
 
         if (jugadorCarta.tipo == TipoCarta.Ataque && iaCarta.tipo == TipoCarta.Defensa)
         {
-            Debug.Log("Jugador atacÛ pero IA defendiÛ. No pasa nada.");
+            Debug.Log("Jugador atac√≥ pero IA defendi√≥. No pasa nada.");
             return;
         }
         if (iaCarta.tipo == TipoCarta.Ataque && jugadorCarta.tipo == TipoCarta.Defensa)
         {
-            Debug.Log("IA atacÛ pero Jugador defendiÛ. No pasa nada.");
+            Debug.Log("IA atac√≥ pero Jugador defendi√≥. No pasa nada.");
             return;
         }
 
-        // Si llegamos hasta ac·, aplicamos daÒos si corresponde
+        // Si llegamos hasta ac√°, aplicamos da√±os si corresponde
         if (jugadorCarta.tipo == TipoCarta.Ataque)
         {
-            int daÒo = jugador.tieneBuffeoActivo ? 2 : 1;
-            ia.vida -= daÒo;
-            Debug.Log($"Jugador hizo {daÒo} de daÒo a la IA.");
+            int da√±o = jugador.tieneBuffeoActivo ? 2 : 1;
+            ia.vida -= da√±o;
+            Debug.Log($"Jugador hizo {da√±o} de da√±o a la IA.");
             jugador.tieneBuffeoActivo = false; // Se gasta el buffeo
         }
 
         if (iaCarta.tipo == TipoCarta.Ataque)
         {
-            int daÒo = ia.tieneBuffeoActivo ? 2 : 1;
-            jugador.vida -= daÒo;
-            Debug.Log($"IA hizo {daÒo} de daÒo al Jugador.");
+            int da√±o = ia.tieneBuffeoActivo ? 2 : 1;
+            jugador.vida -= da√±o;
+            Debug.Log($"IA hizo {da√±o} de da√±o al Jugador.");
             ia.tieneBuffeoActivo = false; // Se gasta el buffeo
         }
     }
@@ -174,11 +179,11 @@ public class SistemaDuelo : MonoBehaviour
         {
             jugador.RobarMano();
             MostrarCartasJugador();
-            Debug.Log("Se mezclÛ el mazo y se robaron nuevas cartas.");
+            Debug.Log("Se mezcl√≥ el mazo y se robaron nuevas cartas.");
         }
         else
         {
-            Debug.Log("No se puede mezclar despuÈs de elegir cartas.");
+            Debug.Log("No se puede mezclar despu√©s de elegir cartas.");
         }
     }
 

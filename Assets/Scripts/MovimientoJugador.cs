@@ -1,23 +1,39 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement; // Agregamos esto para cargar escena directamente desde acá
+using UnityEngine.SceneManagement; // Para cargar escenas
 
 public class MovimientoJugador : MonoBehaviour
 {
     public bool estaMoviendose = false;
     public float velocidad = 5f;
     private Vector3 objetivo;
-    private bool tieneObjetivo = false; // Para saber si tiene un destino
+    private bool tieneObjetivo = false; // Si tiene un destino
 
-    private bool cambiarEscenaCuandoTermine = false; // ✅ NUEVO
+    private bool cambiarEscenaCuandoTermine = false; // Cambiar escena al llegar
 
     void Start()
     {
         if (DatosJuego.instancia != null)
         {
-            transform.position = DatosJuego.instancia.ultimaPosicionJugador;
+            // ✅ Si usás resetearNodoAlInicio en DatosJuego
+            if (DatosJuego.instancia.resetearNodoAlInicio)
+            {
+                // Buscar el MapaManager para colocar al jugador en el nodo inicial
+                MapaManager mapa = FindObjectOfType<MapaManager>();
+                if (mapa != null && mapa.nodosEnemigosGO.Count > 0)
+                {
+                    transform.position = mapa.nodosEnemigosGO[0].transform.position;
+                }
+
+                // Resetear variable para futuros combates
+                DatosJuego.instancia.resetearNodoAlInicio = false;
+            }
+            else
+            {
+                // Posición guardada antes de entrar al duelo
+                transform.position = DatosJuego.instancia.ultimaPosicionJugador;
+            }
         }
     }
-
 
     void Update()
     {
@@ -28,17 +44,18 @@ public class MovimientoJugador : MonoBehaviour
         }
         else
         {
-            if (estaMoviendose) // Solamente si estaba moviéndose antes
+            if (estaMoviendose) // Solo si estaba moviéndose antes
             {
                 estaMoviendose = false;
 
                 if (cambiarEscenaCuandoTermine)
                 {
-                    // ✅ Guardamos la posición antes de cargar la nueva escena
+                    // ✅ Guarda la posición antes de cargar la nueva escena
                     if (DatosJuego.instancia != null)
                     {
                         DatosJuego.instancia.ultimaPosicionJugador = transform.position;
                     }
+
                     SceneManager.LoadScene("Duelo");
                 }
             }
@@ -51,5 +68,4 @@ public class MovimientoJugador : MonoBehaviour
         tieneObjetivo = true;
         cambiarEscenaCuandoTermine = cambiarEscena;
     }
-
 }

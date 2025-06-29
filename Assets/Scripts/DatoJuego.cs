@@ -1,14 +1,17 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DatosJuego : MonoBehaviour
 {
     public static DatosJuego instancia;
+    public Nodo nodoDerrotado;
+    public Nodo nodoActual;
+
 
     public Vector3 ultimaPosicionJugador;
+    public int batallasGanadas;
+    public int batallasParaGanar;
 
-    
-    public int batallasGanadas = 0;
-    public int batallasParaGanar = 2; // Gan�s luego de 2 batallas
+    public bool resetearNodoAlInicio = false; // ✅ agregada
 
     void Awake()
     {
