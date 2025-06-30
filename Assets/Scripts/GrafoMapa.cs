@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GrafoMapa
@@ -11,10 +11,11 @@ public class GrafoMapa
         nodos.Add(nodo);
     }
 
-    // Conecta dos nodos de manera bidireccional
+    // Conecta dos nodos de manera bidireccional con peso
     public void ConectarNodos(Nodo a, Nodo b)
     {
-        a.AgregarConexion(b);
-        b.AgregarConexion(a); // Si quer�s que sea bidireccional
+        float peso = Vector3.Distance(a.posicion, b.posicion); // ✅ Usa distancia real como peso
+        a.AgregarConexion(b, peso);
+        b.AgregarConexion(a, peso); // Bidireccional
     }
 }
