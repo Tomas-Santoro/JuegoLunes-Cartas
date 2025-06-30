@@ -3,11 +3,10 @@ using UnityEngine;
 using UnityEngine.UI; // O usar TMPro si usás TextMeshPro
 using TMPro;
 
-
 public class UIEnemigosRanking : MonoBehaviour
 {
     public Text textoRanking; // Asignar desde el Inspector
- 
+
     void Start()
     {
         if (textoRanking == null)
@@ -21,11 +20,10 @@ public class UIEnemigosRanking : MonoBehaviour
 
     void MostrarRanking()
     {
-        List<Enemigo> enemigosOrdenados = new List<Enemigo>();
-
         if (MapaManager.arbolPoderEnemigos != null)
         {
-            MapaManager.arbolPoderEnemigos.RecorrerEnOrden(enemigosOrdenados);
+            // ✅ Usar el método público que retorna la lista ordenada
+            List<Enemigo> enemigosOrdenados = MapaManager.arbolPoderEnemigos.ObtenerEnemigosOrdenados();
 
             textoRanking.text = "🏆 RANKING DE ENEMIGOS (Poder de menor a mayor)\n\n";
 
