@@ -2,7 +2,7 @@
 
 public class BotonNodo : MonoBehaviour
 {
-    public Nodo nodo; // Referencia a este nodo
+    public Nodo nodo; 
     private PanelOpciones panelOpciones;
     private MapaManager mapaManager;
 
@@ -28,7 +28,7 @@ public class BotonNodo : MonoBehaviour
 
         if (mapaManager != null && nodo != null)
         {
-            mapaManager.MoverJugadorANodo(nodo); // ✅ Mueve el jugador al nodo clickeado
+            mapaManager.MoverJugadorANodo(nodo); // mueve al player al nodo
         }
 
         if (panelOpciones != null && nodo != null)

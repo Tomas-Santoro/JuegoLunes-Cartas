@@ -14,10 +14,8 @@ public class MovimientoJugador : MonoBehaviour
     {
         if (DatosJuego.instancia != null)
         {
-            // ✅ Si usás resetearNodoAlInicio en DatosJuego
             if (DatosJuego.instancia.resetearNodoAlInicio)
             {
-                // Buscar el MapaManager para colocar al jugador en el nodo inicial
                 MapaManager mapa = FindObjectOfType<MapaManager>();
                 if (mapa != null && mapa.nodosEnemigosGO.Count > 0)
                 {
@@ -50,7 +48,7 @@ public class MovimientoJugador : MonoBehaviour
 
                 if (cambiarEscenaCuandoTermine)
                 {
-                    // ✅ Guarda la posición antes de cargar la nueva escena
+                    // guarda nposcion cuando carga escena
                     if (DatosJuego.instancia != null)
                     {
                         DatosJuego.instancia.ultimaPosicionJugador = transform.position;

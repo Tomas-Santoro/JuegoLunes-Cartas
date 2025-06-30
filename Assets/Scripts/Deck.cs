@@ -33,14 +33,11 @@ public class Deck
             cartasTemporales[randomIndex] = temp;
         }
 
-        // Crear la pila en base al arreglo de arriba 
-        //cartas = new Stack<Carta>(cartasTemporales);
         cartas = new Pila<Carta>(cartasTemporales);
     }
 
     public void Mezclar()
     {
-        // List<Carta> cartasLista = new List<Carta>(cartas);
         List<Carta> cartasLista = cartas.ALista();
 
         for (int i = 0; i < cartasLista.Count; i++)
@@ -51,7 +48,6 @@ public class Deck
             cartasLista[randomIndex] = temp;
         }
         //crea la pila en base a una lista
-        //cartas = new Stack<Carta>(cartasLista);
         cartas = new Pila<Carta>(cartasLista);
 
     }

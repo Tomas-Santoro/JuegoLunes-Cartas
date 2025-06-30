@@ -3,10 +3,12 @@ using System.Collections.Generic;
 
 public class Nodo
 {
+    public bool esNodoInicio = false;
+
     public string nombre;
     public Vector3 posicion;
     public List<Nodo> conexiones;
-    public GameObject go; // ✅ Referencia al GameObject visual (nodo)
+    public GameObject go; 
     public Enemigo enemigo;
 
     public Nodo(string nombre, Vector3 posicion, GameObject go, Enemigo enemigo = null)

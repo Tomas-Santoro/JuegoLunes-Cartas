@@ -13,7 +13,7 @@ public class DatosJuego : MonoBehaviour
     public int batallasParaGanar;
     public bool resetearNodoAlInicio = false;
 
-    public Dictionary<string, Enemigo> enemigosPorNodo = new Dictionary<string, Enemigo>(); // ✅ Agregado aquí
+    public Dictionary<string, Enemigo> enemigosPorNodo = new Dictionary<string, Enemigo>(); 
 
     void Awake()
     {
@@ -21,7 +21,7 @@ public class DatosJuego : MonoBehaviour
         {
             instancia = this;
             DontDestroyOnLoad(gameObject);
-            InicializarEnemigos(); // ✅ cargamos el diccionario al iniciar
+            InicializarEnemigos(); 
         }
         else
         {

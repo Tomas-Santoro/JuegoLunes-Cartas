@@ -10,10 +10,10 @@ public class CartaUI : MonoBehaviour
 
     public TMP_Text textoTipoCarta;
     private Button boton;
-    private Image imagenFondo; // Fondo de la carta para cambiar el color
+    private Image imagenFondo; 
 
     private Color colorOriginal = Color.blue;
-    public Color colorSeleccionado = Color.cyan; // Color cuando la carta está seleccionada
+    public Color colorSeleccionado = Color.cyan; 
 
     private bool estaSeleccionada = false;
 

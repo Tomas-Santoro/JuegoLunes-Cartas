@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; // O usar TMPro si usás TextMeshPro
+using UnityEngine.UI; 
 using TMPro;
 
 public class UIEnemigosRanking : MonoBehaviour
@@ -22,7 +22,6 @@ public class UIEnemigosRanking : MonoBehaviour
     {
         if (MapaManager.arbolPoderEnemigos != null)
         {
-            // ✅ Usar el método público que retorna la lista ordenada
             List<Enemigo> enemigosOrdenados = MapaManager.arbolPoderEnemigos.ObtenerEnemigosOrdenados();
 
             textoRanking.text = "🏆 RANKING DE ENEMIGOS (Poder de menor a mayor)\n\n";

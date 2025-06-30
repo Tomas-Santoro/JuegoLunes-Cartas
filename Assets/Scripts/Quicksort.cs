@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class QuickSort
 {
-    //Sort from lower to higher value
 
     int[] sortedList;
     public int[] QSort(int[] toSortList, int low, int high)

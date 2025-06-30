@@ -9,16 +9,15 @@ public class CambioColorAlPasarMouse : MonoBehaviour
     public GameObject dialogPanel;
     public PanelOpciones panelOpciones;
 
-    private BotonNodo botonNodo; // ✅ Nuevo: referencia al script BotonNodo
+    private BotonNodo botonNodo; 
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         colorOriginal = spriteRenderer.color;
 
-        botonNodo = GetComponent<BotonNodo>(); // ✅ Obtener BotonNodo en este GameObject
+        botonNodo = GetComponent<BotonNodo>(); 
 
-        // Asegura de que el panel esté desactivado al inicio.
         if (dialogPanel != null)
             dialogPanel.SetActive(false);
     }
@@ -39,7 +38,7 @@ public class CambioColorAlPasarMouse : MonoBehaviour
         if (dialogPanel != null && botonNodo != null && botonNodo.nodo != null)
         {
             dialogPanel.SetActive(true);
-            panelOpciones.ConfigurarObjetivo(botonNodo.nodo); // ✅ Configurar Nodo como objetivo
+            panelOpciones.ConfigurarObjetivo(botonNodo.nodo); 
         }
     }
 }

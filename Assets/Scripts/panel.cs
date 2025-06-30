@@ -8,19 +8,16 @@ public class PanelOpciones : MonoBehaviour
     public Button btnCancelar;
     public GameObject dialogPanel;
 
-    private Nodo targetNodo; // ✅ Referencia al Nodo seleccionado
+    private Nodo targetNodo;
     private MapaManager mapaManager;
 
     void Start()
     {
-        // ✅ Asignar listeners a los botones
         btnAtacar.onClick.AddListener(OnAtacar);
         btnCancelar.onClick.AddListener(OnCancelar);
 
-        // ✅ Buscar el MapaManager en la escena
         mapaManager = FindObjectOfType<MapaManager>();
 
-        // ✅ Verificar referencias en consola
         if (mapaManager == null)
             Debug.LogError("❌ MapaManager no encontrado en la escena.");
 
@@ -42,7 +39,7 @@ public class PanelOpciones : MonoBehaviour
             if (DatosJuego.instancia != null)
             {
                 DatosJuego.instancia.ultimaPosicionJugador = mapaManager.jugador.transform.position;
-                DatosJuego.instancia.nodoActual = targetNodo; // 👈 ESTA LÍNEA DEBE ESTAR
+                DatosJuego.instancia.nodoActual = targetNodo;
                 Debug.Log($"📌 NodoActual guardado: {targetNodo.nombre}");
             }
 
@@ -65,7 +62,6 @@ public class PanelOpciones : MonoBehaviour
         dialogPanel.SetActive(false);
     }
 
-    // ✅ Configura el nodo objetivo desde BotonNodo
     public void ConfigurarObjetivo(Nodo nodo)
     {
         targetNodo = nodo;
