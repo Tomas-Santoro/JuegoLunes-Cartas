@@ -5,22 +5,22 @@ public class Nodo
 {
     public string nombre;
     public Vector3 posicion;
-    public List<Arista> conexiones; // ✅ Ahora conexiones son aristas con peso
-    public GameObject go; // Referencia al GameObject visual (nodo)
+    public List<Nodo> conexiones;
+    public GameObject go; // ✅ Referencia al GameObject visual (nodo)
 
     public Nodo(string nombre, Vector3 posicion, GameObject go)
     {
         this.nombre = nombre;
         this.posicion = posicion;
         this.go = go;
-        conexiones = new List<Arista>();
+        conexiones = new List<Nodo>();
     }
 
-    public void AgregarConexion(Nodo destino, float peso)
+    public void AgregarConexion(Nodo destino)
     {
-        if (!conexiones.Exists(a => a.destino == destino))
+        if (!conexiones.Contains(destino))
         {
-            conexiones.Add(new Arista(destino, peso));
+            conexiones.Add(destino);
         }
     }
 }

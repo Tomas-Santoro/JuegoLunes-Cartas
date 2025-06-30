@@ -64,8 +64,16 @@ public class MovimientoJugador : MonoBehaviour
 
     public void MoverJugador(Vector3 destino, bool cambiarEscena = false)
     {
+        if (Vector3.Distance(transform.position, destino) < 0.01f)
+        {
+            estaMoviendose = false;
+            tieneObjetivo = false;
+            return;
+        }
+
         objetivo = destino;
         tieneObjetivo = true;
         cambiarEscenaCuandoTermine = cambiarEscena;
+        estaMoviendose = true;
     }
 }
