@@ -19,52 +19,52 @@ public class PanelOpciones : MonoBehaviour
         mapaManager = FindObjectOfType<MapaManager>();
 
         if (mapaManager == null)
-            Debug.LogError("❌ MapaManager no encontrado en la escena.");
+            Debug.LogError("MapaManager no encontrado en la escena.");
 
         if (dialogPanel != null)
             dialogPanel.SetActive(false);
         else
-            Debug.LogError("❌ dialogPanel no asignado en PanelOpciones.");
+            Debug.LogError("dialogPanel no asignado en PanelOpciones.");
     }
 
     void OnAtacar()
     {
-        Debug.Log("🗡 Botón Atacar presionado.");
+        Debug.Log(" Botón Atacar presionado.");
 
         if (targetNodo != null)
         {
-            Debug.Log($"✅ Atacando nodo: {targetNodo.nombre}");
+            Debug.Log($"Atacando nodo: {targetNodo.nombre}");
             dialogPanel.SetActive(false);
 
             if (DatosJuego.instancia != null)
             {
                 DatosJuego.instancia.ultimaPosicionJugador = mapaManager.jugador.transform.position;
                 DatosJuego.instancia.nodoActual = targetNodo;
-                Debug.Log($"📌 NodoActual guardado: {targetNodo.nombre}");
+                Debug.Log($"NodoActual guardado: {targetNodo.nombre}");
             }
 
             if (Application.CanStreamedLevelBeLoaded("Duelo"))
             {
-                Debug.Log("🔄 Cargando escena Duelo...");
+                Debug.Log("Cargando escena Duelo...");
 
                 SceneManager.LoadScene("Duelo");
             }
             else
             {
-                Debug.LogError("❌ La escena 'Duelo' no está en Build Settings.");
+                Debug.LogError("La escena 'Duelo' no está en Build Settings.");
             }
         }
     }
 
     void OnCancelar()
     {
-        Debug.Log("❌ Botón Cancelar presionado.");
+        Debug.Log("Botón Cancelar presionado.");
         dialogPanel.SetActive(false);
     }
 
     public void ConfigurarObjetivo(Nodo nodo)
     {
         targetNodo = nodo;
-        Debug.Log($"✅ targetNodo configurado: {nodo.nombre}");
+        Debug.Log($"targetNodo configurado: {nodo.nombre}");
     }
 }

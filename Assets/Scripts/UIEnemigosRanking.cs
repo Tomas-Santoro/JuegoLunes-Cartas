@@ -11,7 +11,7 @@ public class UIEnemigosRanking : MonoBehaviour
     {
         if (textoRanking == null)
         {
-            Debug.LogError("❌ No se asignó el Text para mostrar el ranking.");
+            Debug.LogError("No se asignó el Text para mostrar el ranking.");
             return;
         }
 
@@ -24,7 +24,7 @@ public class UIEnemigosRanking : MonoBehaviour
         {
             List<Enemigo> enemigosOrdenados = MapaManager.arbolPoderEnemigos.ObtenerEnemigosOrdenados();
 
-            textoRanking.text = "🏆 RANKING DE ENEMIGOS (Poder de menor a mayor)\n\n";
+            textoRanking.text = "RANKING DE ENEMIGOS (Poder de menor a mayor)\n\n";
 
             int posicion = 1;
             foreach (var enemigo in enemigosOrdenados)

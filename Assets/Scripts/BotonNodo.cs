@@ -12,14 +12,14 @@ public class BotonNodo : MonoBehaviour
         mapaManager = FindObjectOfType<MapaManager>();
 
         if (panelOpciones == null)
-            Debug.LogError($"❌ PanelOpciones no encontrado en la escena por {gameObject.name}");
+            Debug.LogError($"PanelOpciones no encontrado en la escena por {gameObject.name}");
         else
-            Debug.Log($"✅ PanelOpciones detectado correctamente por {gameObject.name}");
+            Debug.Log($"PanelOpciones detectado correctamente por {gameObject.name}");
 
         if (mapaManager == null)
-            Debug.LogError($"❌ MapaManager no encontrado en la escena por {gameObject.name}");
+            Debug.LogError($"MapaManager no encontrado en la escena por {gameObject.name}");
         else
-            Debug.Log($"✅ MapaManager detectado correctamente por {gameObject.name}");
+            Debug.Log($"MapaManager detectado correctamente por {gameObject.name}");
     }
 
     void OnMouseDown()
@@ -33,13 +33,13 @@ public class BotonNodo : MonoBehaviour
 
         if (panelOpciones != null && nodo != null)
         {
-            Debug.Log($"✅ Abriendo panel para nodo: {nodo.nombre}");
+            Debug.Log($"Abriendo panel para nodo: {nodo.nombre}");
             panelOpciones.ConfigurarObjetivo(nodo);
             panelOpciones.dialogPanel.SetActive(true);
         }
         else
         {
-            Debug.LogError("❌ No se pudo abrir panel: panelOpciones o nodo es null");
+            Debug.LogError("No se pudo abrir panel: panelOpciones o nodo es null");
         }
     }
 }

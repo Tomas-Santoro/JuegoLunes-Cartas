@@ -14,7 +14,7 @@ public class MapaManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("📍 MapaManager Start ejecutado.");
+        Debug.Log("MapaManager Start ejecutado.");
 
         grafo = new GrafoMapa();
         List<Nodo> nodosEnemigos = new List<Nodo>();
@@ -24,7 +24,7 @@ public class MapaManager : MonoBehaviour
 
         if (enemigosPorNodo == null || enemigosPorNodo.Count == 0)
         {
-            Debug.LogWarning("⚠️ DatosJuego.enemigosPorNodo está vacío o null.");
+            Debug.LogWarning("DatosJuego.enemigosPorNodo está vacío o null.");
         }
 
         foreach (GameObject go in nodosEnemigosGO)
@@ -34,12 +34,12 @@ public class MapaManager : MonoBehaviour
             if (enemigosPorNodo != null && enemigosPorNodo.ContainsKey(go.name))
             {
                 nuevoNodo.enemigo = enemigosPorNodo[go.name];
-                Debug.Log($"✅ Enemigo asignado a {go.name}: {nuevoNodo.enemigo.nombre} (Poder: {nuevoNodo.enemigo.poder})");
+                Debug.Log($"Enemigo asignado a {go.name}: {nuevoNodo.enemigo.nombre} (Poder: {nuevoNodo.enemigo.poder})");
                 arbolPoderEnemigos.Insertar(nuevoNodo.enemigo);
             }
             else
             {
-                Debug.LogWarning($"⚠️ No se encontró enemigo para {go.name}");
+                Debug.LogWarning($"No se encontró enemigo para {go.name}");
             }
 
             grafo.AgregarNodo(nuevoNodo);
@@ -74,7 +74,7 @@ public class MapaManager : MonoBehaviour
             if (nodoEliminar.go != null)
                 Destroy(nodoEliminar.go);
 
-            Debug.Log($"🗑️ Nodo derrotado eliminado: {nodoEliminar.nombre}");
+            Debug.Log($"Nodo derrotado eliminado: {nodoEliminar.nombre}");
             DatosJuego.instancia.nodoDerrotado = null;
         }
 
@@ -91,16 +91,16 @@ public class MapaManager : MonoBehaviour
                 if (nodoEncontrado != null)
                 {
                     botonNodo.nodo = nodoEncontrado;
-                    Debug.Log($"🔄 Nodo re-asignado: {nodoEncontrado.nombre} a {go.name}");
+                    Debug.Log($"Nodo re-asignado: {nodoEncontrado.nombre} a {go.name}");
                 }
                 else
                 {
-                    Debug.LogError($"❌ No se encontró Nodo asociado a {go.name}");
+                    Debug.LogError($"No se encontró Nodo asociado a {go.name}");
                 }
             }
             else
             {
-                Debug.LogError($"❌ BotonNodo no encontrado en {go.name}");
+                Debug.LogError($"otonNodo no encontrado en {go.name}");
             }
         }
     }
@@ -117,7 +117,7 @@ public class MapaManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError("❌ PanelOpciones no encontrado en escena.");
+                Debug.LogError("PanelOpciones no encontrado en escena.");
             }
 
             nodoDestinoPendiente = null;
@@ -131,14 +131,14 @@ public class MapaManager : MonoBehaviour
             nodoActual = grafo.nodos.Find(n => Vector3.Distance(n.posicion, jugador.transform.position) < 0.5f);
             if (nodoActual == null)
             {
-                Debug.LogError("❌ nodoActual es null y no se encontró uno cercano.");
+                Debug.LogError("nodoActual es null y no se encontró uno cercano.");
                 return;
             }
         }
 
         if (nodoActual == destino)
         {
-            Debug.Log("⛔ Ya estás en el nodo destino.");
+            Debug.Log("Ya estás en el nodo destino.");
             return;
         }
 
@@ -146,13 +146,13 @@ public class MapaManager : MonoBehaviour
 
         if (camino == null || camino.Count < 2)
         {
-            Debug.LogWarning("⚠️ Camino no válido o ya estás en el destino.");
+            Debug.LogWarning("Camino no válido o ya estás en el destino.");
             return;
         }
 
-        Debug.Log("🚶 Iniciando movimiento del jugador:");
+        Debug.Log("Iniciando movimiento del jugador:");
         foreach (var paso in camino)
-            Debug.Log("🟢 Paso: " + paso.nombre);
+            Debug.Log("Paso: " + paso.nombre);
 
         nodoActual = destino;
         nodoDestinoPendiente = destino;
@@ -165,7 +165,7 @@ public class MapaManager : MonoBehaviour
 
     private System.Collections.IEnumerator MoverSecuencia(List<Nodo> camino)
     {
-        Debug.Log("🔁 Iniciando secuencia de movimiento...");
+        Debug.Log("Iniciando secuencia de movimiento...");
 
         foreach (Nodo paso in camino)
         {
@@ -174,6 +174,6 @@ public class MapaManager : MonoBehaviour
             yield return new WaitUntil(() => jugador.estaMoviendose == false);
         }
 
-        Debug.Log("✅ Movimiento finalizado");
+        Debug.Log("Movimiento finalizado");
     }
 }

@@ -27,13 +27,13 @@ public class SistemaDuelo : MonoBehaviour
             ia = new Jugador(nodo.enemigo.vida);
             ia.nombre = nodo.enemigo.nombre;
 
-            Debug.Log($"⚔️ Enfrentando a: {ia.nombre} con {ia.vida} de vida");
+            Debug.Log($"Enfrentando a: {ia.nombre} con {ia.vida} de vida");
         }
         else
         {
             ia = new Jugador(); // Valor por defecto si algo falla
             ia.nombre = "IA Genérica";
-            Debug.LogWarning("⚠️ No se pudo asignar enemigo, usando IA por defecto");
+            Debug.LogWarning("No se pudo asignar enemigo, usando IA por defecto");
         }
 
         EmpezarNuevaRonda();
