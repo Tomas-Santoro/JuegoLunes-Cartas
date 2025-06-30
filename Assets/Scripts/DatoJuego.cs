@@ -36,6 +36,7 @@ public class DatosJuego : MonoBehaviour
             { "nodo1", new Enemigo("Lucas", 5, 1) },
             { "nodo2", new Enemigo("Martina", 6, 2) },
             { "nodo3", new Enemigo("Ernesto", 7, 3) },
+            { "nodo4", new Enemigo("Carlos", 7, 3) },
         };
     }
 }
