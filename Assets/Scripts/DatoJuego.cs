@@ -1,17 +1,19 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class DatosJuego : MonoBehaviour
 {
     public static DatosJuego instancia;
+
     public Nodo nodoDerrotado;
     public Nodo nodoActual;
-
 
     public Vector3 ultimaPosicionJugador;
     public int batallasGanadas;
     public int batallasParaGanar;
+    public bool resetearNodoAlInicio = false;
 
-    public bool resetearNodoAlInicio = false; // ✅ agregada
+    public Dictionary<string, Enemigo> enemigosPorNodo = new Dictionary<string, Enemigo>(); // ✅ Agregado aquí
 
     void Awake()
     {
@@ -19,10 +21,21 @@ public class DatosJuego : MonoBehaviour
         {
             instancia = this;
             DontDestroyOnLoad(gameObject);
+            InicializarEnemigos(); // ✅ cargamos el diccionario al iniciar
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private void InicializarEnemigos()
+    {
+        enemigosPorNodo = new Dictionary<string, Enemigo>
+        {
+            { "nodo1", new Enemigo("Lucas", 5, 1) },
+            { "nodo2", new Enemigo("Martina", 6, 2) },
+            { "nodo3", new Enemigo("Ernesto", 7, 3) },
+        };
     }
 }

@@ -24,7 +24,7 @@ public class BotonNodo : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.Log($"🖱️ Click detectado en {gameObject.name}");
+        Debug.Log($" Click detectado en {gameObject.name}");
 
         if (mapaManager != null && nodo != null)
         {

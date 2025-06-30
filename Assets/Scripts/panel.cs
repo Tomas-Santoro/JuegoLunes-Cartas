@@ -32,33 +32,30 @@ public class PanelOpciones : MonoBehaviour
 
     void OnAtacar()
     {
-        Debug.Log("🗡️ Botón Atacar presionado.");
+        Debug.Log("🗡 Botón Atacar presionado.");
 
         if (targetNodo != null)
         {
             Debug.Log($"✅ Atacando nodo: {targetNodo.nombre}");
             dialogPanel.SetActive(false);
 
-            // ✅ Guarda la posición antes de entrar al duelo
             if (DatosJuego.instancia != null)
             {
                 DatosJuego.instancia.ultimaPosicionJugador = mapaManager.jugador.transform.position;
+                DatosJuego.instancia.nodoActual = targetNodo; // 👈 ESTA LÍNEA DEBE ESTAR
+                Debug.Log($"📌 NodoActual guardado: {targetNodo.nombre}");
             }
 
-            // ✅ Carga la escena de duelo si existe en Build Settings
             if (Application.CanStreamedLevelBeLoaded("Duelo"))
             {
                 Debug.Log("🔄 Cargando escena Duelo...");
-                SceneManager.LoadScene("Duelo"); // Asegurate que la escena se llame exactamente "Duelo"
+
+                SceneManager.LoadScene("Duelo");
             }
             else
             {
-                Debug.LogError("❌ La escena 'Duelo' no está en Build Settings o el nombre es incorrecto.");
+                Debug.LogError("❌ La escena 'Duelo' no está en Build Settings.");
             }
-        }
-        else
-        {
-            Debug.LogError("❌ Error al atacar: targetNodo es null.");
         }
     }
 

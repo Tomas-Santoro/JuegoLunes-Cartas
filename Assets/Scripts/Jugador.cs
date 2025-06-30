@@ -2,16 +2,31 @@ using System.Collections.Generic;
 
 public class Jugador
 {
-    public int vida = 3;
+    public string nombre;
+    public int vida;
     public Deck deck;
-    public List<Carta> mano = new List<Carta>();
-    //public Queue<Carta> acciones = new Queue<Carta>();
-    public Cola<Carta> acciones = new Cola<Carta>();
+    public List<Carta> mano;
+    public Cola<Carta> acciones;
     public bool tieneBuffeoActivo = false;
 
+    // Constructor por defecto (jugador humano)
     public Jugador()
     {
-        deck = new Deck();
+        this.nombre = "Jugador";
+        this.vida = 3;
+        this.deck = new Deck();
+        this.mano = new List<Carta>();
+        this.acciones = new Cola<Carta>();
+    }
+
+    // Constructor con vida personalizada (para IA/enemigos)
+    public Jugador(int vida)
+    {
+        this.nombre = "Enemigo";
+        this.vida = vida;
+        this.deck = new Deck();
+        this.mano = new List<Carta>();
+        this.acciones = new Cola<Carta>();
     }
 
     public void RobarMano()
@@ -21,11 +36,9 @@ public class Jugador
 
     public void ElegirCartas(List<int> indicesElegidos)
     {
-        //acciones.Clear();
         acciones.Limpiar();
         foreach (int index in indicesElegidos)
         {
-            //acciones.Enqueue(mano[index]);
             acciones.Encolar(mano[index]);
         }
     }

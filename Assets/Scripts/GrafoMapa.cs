@@ -32,14 +32,18 @@ public class GrafoMapa
 
         distancias[origen] = 0;
 
+
+
+
+
         while (noVisitados.Count > 0)
         {
             noVisitados.Sort((a, b) => distancias[a].CompareTo(distancias[b]));
             Nodo actual = noVisitados[0];
             noVisitados.RemoveAt(0);
-
+            
             if (actual == destino)
-                break;
+                break; //REVISAR ***************************************************************************************************************
 
             foreach (Nodo vecino in actual.conexiones)
             {

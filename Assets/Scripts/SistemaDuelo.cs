@@ -9,8 +9,8 @@ public class SistemaDuelo : MonoBehaviour
     public Jugador jugador;
     public Jugador ia;
 
-    public GameObject[] slotsCartasJugador; // Los 3 botones o imágenes de las cartas
-    public GameObject cartaPrefab; // Prefab de la carta visual
+    public GameObject[] slotsCartasJugador;
+    public GameObject cartaPrefab;
     private List<int> indicesSeleccionados = new List<int>();
 
     public Image[] vidasJugador;
@@ -19,7 +19,22 @@ public class SistemaDuelo : MonoBehaviour
     void Start()
     {
         jugador = new Jugador();
-        ia = new Jugador();
+
+        Nodo nodo = DatosJuego.instancia.nodoActual;
+
+        if (nodo != null && nodo.enemigo != null)
+        {
+            ia = new Jugador(nodo.enemigo.vida);
+            ia.nombre = nodo.enemigo.nombre;
+
+            Debug.Log($"⚔️ Enfrentando a: {ia.nombre} con {ia.vida} de vida");
+        }
+        else
+        {
+            ia = new Jugador(); // Valor por defecto si algo falla
+            ia.nombre = "IA Genérica";
+            Debug.LogWarning("⚠️ No se pudo asignar enemigo, usando IA por defecto");
+        }
 
         EmpezarNuevaRonda();
     }
@@ -31,7 +46,6 @@ public class SistemaDuelo : MonoBehaviour
 
         indicesSeleccionados.Clear();
 
-        // IA elige automáticamente
         List<int> indicesIA = new List<int> { 0, 1 };
         ia.ElegirCartas(indicesIA);
 
@@ -43,7 +57,6 @@ public class SistemaDuelo : MonoBehaviour
         for (int i = 0; i < jugador.mano.Count; i++)
         {
             Carta carta = jugador.mano[i];
-
             CartaUI cartaUI = slotsCartasJugador[i].GetComponent<CartaUI>();
             cartaUI.ConfigurarCarta(carta, i, this);
         }
@@ -58,7 +71,6 @@ public class SistemaDuelo : MonoBehaviour
         }
 
         indicesSeleccionados.Add(indice);
-
         Carta cartaElegida = jugador.mano[indice];
         Debug.Log($"Seleccionaste la carta: {cartaElegida.tipo}");
 
@@ -68,7 +80,6 @@ public class SistemaDuelo : MonoBehaviour
             ResolverDuelos();
         }
     }
-
 
     public void ResolverDuelos()
     {
@@ -82,16 +93,13 @@ public class SistemaDuelo : MonoBehaviour
 
         for (int i = 0; i < 2; i++)
         {
-            //Carta cartaJugador = jugador.acciones.Dequeue();
-            //Carta cartaIA = ia.acciones.Dequeue();
             Carta cartaJugador = jugador.acciones.Desencolar();
             Carta cartaIA = ia.acciones.Desencolar();
 
             Debug.Log($"Resolviendo duelo: Jugador({cartaJugador.tipo}) vs IA({cartaIA.tipo})");
 
             ResolverDuelo(cartaJugador, cartaIA);
-
-            ActualizarVidas(); // Actualizamos visualmente
+            ActualizarVidas();
 
             yield return new WaitForSeconds(1f);
         }
@@ -107,22 +115,14 @@ public class SistemaDuelo : MonoBehaviour
 
             DatosJuego.instancia.batallasGanadas++;
 
-            // ✅ Eliminar nodo derrotado antes de volver al mapa
             if (DatosJuego.instancia != null)
-            {
                 DatosJuego.instancia.nodoDerrotado = DatosJuego.instancia.nodoActual;
-            }
 
             if (DatosJuego.instancia.batallasGanadas >= DatosJuego.instancia.batallasParaGanar)
-            {
                 SceneManager.LoadScene("Victoria");
-            }
             else
-            {
                 SceneManager.LoadScene("SampleScene");
-            }
         }
-
         else
         {
             Debug.Log("Nueva ronda!");
@@ -132,7 +132,6 @@ public class SistemaDuelo : MonoBehaviour
 
     private void ResolverDuelo(Carta jugadorCarta, Carta iaCarta)
     {
-        // Combinaciones básicas
         if (jugadorCarta.tipo == TipoCarta.Buffeo)
         {
             jugador.AplicarBuffeo();
@@ -155,13 +154,12 @@ public class SistemaDuelo : MonoBehaviour
             return;
         }
 
-        // Si llegamos hasta acá, aplicamos daños si corresponde
         if (jugadorCarta.tipo == TipoCarta.Ataque)
         {
             int daño = jugador.tieneBuffeoActivo ? 2 : 1;
             ia.vida -= daño;
             Debug.Log($"Jugador hizo {daño} de daño a la IA.");
-            jugador.tieneBuffeoActivo = false; // Se gasta el buffeo
+            jugador.tieneBuffeoActivo = false;
         }
 
         if (iaCarta.tipo == TipoCarta.Ataque)
@@ -169,8 +167,17 @@ public class SistemaDuelo : MonoBehaviour
             int daño = ia.tieneBuffeoActivo ? 2 : 1;
             jugador.vida -= daño;
             Debug.Log($"IA hizo {daño} de daño al Jugador.");
-            ia.tieneBuffeoActivo = false; // Se gasta el buffeo
+            ia.tieneBuffeoActivo = false;
         }
+    }
+
+    private void ActualizarVidas()
+    {
+        for (int i = 0; i < vidasJugador.Length; i++)
+            vidasJugador[i].enabled = i < jugador.vida;
+
+        for (int i = 0; i < vidasIA.Length; i++)
+            vidasIA[i].enabled = i < ia.vida;
     }
 
     public void MezclarYRobarDeNuevo()
@@ -187,20 +194,6 @@ public class SistemaDuelo : MonoBehaviour
         }
     }
 
-
-    private void ActualizarVidas()
-    {
-        for (int i = 0; i < vidasJugador.Length; i++)
-        {
-            vidasJugador[i].enabled = i < jugador.vida;
-        }
-
-        for (int i = 0; i < vidasIA.Length; i++)
-        {
-            vidasIA[i].enabled = i < ia.vida;
-        }
-    }
-
     public void DeseleccionarCarta(int indice)
     {
         if (indicesSeleccionados.Contains(indice))
@@ -209,6 +202,4 @@ public class SistemaDuelo : MonoBehaviour
             Debug.Log($"Deseleccionaste la carta: {jugador.mano[indice].tipo}");
         }
     }
-
-
 }

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement; // Para cargar escenas
+using UnityEngine.SceneManagement; 
 
 public class MovimientoJugador : MonoBehaviour
 {
