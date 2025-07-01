@@ -33,9 +33,9 @@ public class DatosJuego : MonoBehaviour
     {
         enemigosPorNodo = new Dictionary<string, Enemigo>
         {
-            { "nodo1", new Enemigo("Lucas", 5, 1) },
-            { "nodo2", new Enemigo("Martina", 6, 2) },
-            { "nodo3", new Enemigo("Ernesto", 7, 3) },
+            { "brasil", new Enemigo("Lucas", 5, 1) },
+            { "francia", new Enemigo("Martina", 6, 2) },
+            { "japon", new Enemigo("Ernesto", 7, 3) },
             //{ "nodo4", new Enemigo("Carlos", 7, 3) },
         };
     }
