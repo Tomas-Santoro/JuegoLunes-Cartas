@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      francia_0: 1667247417347911640
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -5,8 +5,8 @@ using TMPro;
 
 public class UIEnemigosRanking : MonoBehaviour
 {
-    public Text textoRanking; // Asignar desde el Inspector
-
+    //public Text textoRanking; // Asignar desde el Inspector
+    public TextMeshProUGUI textoRanking;
     void Start()
     {
         if (textoRanking == null)

@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      brazil_0: -978920110821036188
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
