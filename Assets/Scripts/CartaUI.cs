@@ -10,10 +10,10 @@ public class CartaUI : MonoBehaviour
 
     public TMP_Text textoTipoCarta;
     private Button boton;
-    private Image imagenFondo; 
+    private Image imagenFondo;
 
     private Color colorOriginal = Color.blue;
-    public Color colorSeleccionado = Color.cyan; 
+    public Color colorSeleccionado = Color.cyan;
 
     private bool estaSeleccionada = false;
 
