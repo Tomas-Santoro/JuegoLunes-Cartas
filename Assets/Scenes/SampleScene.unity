@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 123811992}
   - component: {fileID: 123811991}
   m_Layer: 0
-  m_Name: nodo4
+  m_Name: sudafrica
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -402,7 +402,7 @@ Transform:
   m_GameObject: {fileID: 123811990}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.63, y: -2.27, z: 0}
+  m_LocalPosition: {x: 0.53, y: -3.14, z: 0}
   m_LocalScale: {x: 7.0603695, y: 7.0603695, z: 7.0603695}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -700,8 +700,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -190, y: -160.10211}
-  m_SizeDelta: {x: 358.3921, y: 320.2042}
+  m_AnchoredPosition: {x: -163.19, y: -540}
+  m_SizeDelta: {x: 326.3895, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &313445165
 MonoBehaviour:
@@ -2387,8 +2387,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4281874488
+  m_fontColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2633,7 +2633,7 @@ GameObject:
   - component: {fileID: 853683749}
   - component: {fileID: 853683748}
   m_Layer: 0
-  m_Name: nodo5
+  m_Name: eeuu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

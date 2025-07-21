@@ -13,7 +13,7 @@ public class Jugador
     public Jugador()
     {
         this.nombre = "Jugador";
-        this.vida = 3;
+        this.vida = 5;//3;
         this.deck = new Deck();
         this.mano = new List<Carta>();
         this.acciones = new Cola<Carta>();

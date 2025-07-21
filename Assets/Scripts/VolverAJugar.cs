@@ -1,17 +1,20 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuManager : MonoBehaviour
+public class VolverAJugar : MonoBehaviour
 {
-    public void StartGame()
+    public void ReiniciarJuego()
     {
         if (DatosJuego.instancia != null)
+        {
             DatosJuego.instancia.ResetearJuego();
+        }
+
         SceneManager.LoadScene("SampleScene");
     }
 
-    public void QuitGame()
+    public void VolverAlMenu()
     {
-        Application.Quit();
+        SceneManager.LoadScene("MainMenu");
     }
 }

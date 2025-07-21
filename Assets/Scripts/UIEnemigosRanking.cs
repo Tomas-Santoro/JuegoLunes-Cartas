@@ -2,12 +2,13 @@
 using UnityEngine;
 using UnityEngine.UI; 
 using TMPro;
+using System.Collections;
 
 public class UIEnemigosRanking : MonoBehaviour
 {
     //public Text textoRanking; // Asignar desde el Inspector
     public TextMeshProUGUI textoRanking;
-    void Start()
+    /*void Start()
     {
         if (textoRanking == null)
         {
@@ -16,7 +17,20 @@ public class UIEnemigosRanking : MonoBehaviour
         }
 
         MostrarRanking();
+    }*/
+    
+    void Start()
+    {
+        StartCoroutine(EsperarYMostrarRanking());
     }
+
+    private IEnumerator EsperarYMostrarRanking()
+    {
+        //yield return new WaitForEndOfFrame(); // También podés probar con new WaitForSeconds(0.1f)
+        yield return new WaitForSeconds(0.1f);
+        MostrarRanking();
+    }
+
 
     void MostrarRanking()
     {
@@ -24,12 +38,13 @@ public class UIEnemigosRanking : MonoBehaviour
         {
             List<Enemigo> enemigosOrdenados = MapaManager.arbolPoderEnemigos.ObtenerEnemigosOrdenados();
 
-            textoRanking.text = "RANKING DE ENEMIGOS (Poder de menor a mayor)\n\n";
+            textoRanking.text = "RANKING DE ENEMIGOS\n(Poder de menor a mayor)\n\n";
 
             int posicion = 1;
             foreach (var enemigo in enemigosOrdenados)
             {
-                textoRanking.text += $"{posicion}. {enemigo.nombre} - Poder: {enemigo.poder}\n";
+                //textoRanking.text += $"{posicion}. {enemigo.nombre}:\n - Vida: {enemigo.vida} \n - Poder: {enemigo.poder}\n";
+                textoRanking.text += $"{posicion}. {enemigo.nombre}:\n - Poder: {enemigo.poder}\n";
                 posicion++;
             }
 
