@@ -1,39 +1,70 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PanelOpciones : MonoBehaviour
 {
     public Button btnAtacar;
     public Button btnCancelar;
     public GameObject dialogPanel;
-    private Transform targetObject;
 
-    private MovimientoJugador movimientoJugador;
+    private Nodo targetNodo;
+    private MapaManager mapaManager;
 
     void Start()
     {
         btnAtacar.onClick.AddListener(OnAtacar);
         btnCancelar.onClick.AddListener(OnCancelar);
 
-        movimientoJugador = FindObjectOfType<MovimientoJugador>();
+        mapaManager = FindObjectOfType<MapaManager>();
+
+        if (mapaManager == null)
+            Debug.LogError("MapaManager no encontrado en la escena.");
+
+        if (dialogPanel != null)
+            dialogPanel.SetActive(false);
+        else
+            Debug.LogError("dialogPanel no asignado en PanelOpciones.");
     }
 
     void OnAtacar()
     {
-        if (movimientoJugador != null && targetObject != null)
+        Debug.Log(" Botón Atacar presionado.");
+
+        if (targetNodo != null)
         {
-            movimientoJugador.MoverJugador(targetObject, true); //  Le decimos que despu�s del movimiento cambie de escena
+            Debug.Log($"Atacando nodo: {targetNodo.nombre}");
             dialogPanel.SetActive(false);
+
+            if (DatosJuego.instancia != null)
+            {
+                DatosJuego.instancia.ultimaPosicionJugador = mapaManager.jugador.transform.position;
+                DatosJuego.instancia.nodoActual = targetNodo;
+                Debug.Log($"NodoActual guardado: {targetNodo.nombre}");
+            }
+
+            if (Application.CanStreamedLevelBeLoaded("Duelo"))
+            {
+                Debug.Log("Cargando escena Duelo...");
+
+                SceneManager.LoadScene("Duelo");
+            }
+            else
+            {
+                Debug.LogError("La escena 'Duelo' no está en Build Settings.");
+            }
         }
     }
 
     void OnCancelar()
     {
+        Debug.Log("Botón Cancelar presionado.");
         dialogPanel.SetActive(false);
     }
 
-    public void ConfigurarObjetivo(Transform objeto)
+    public void ConfigurarObjetivo(Nodo nodo)
     {
-        targetObject = objeto;
+        targetNodo = nodo;
+        Debug.Log($"targetNodo configurado: {nodo.nombre}");
     }
 }

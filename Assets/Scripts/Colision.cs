@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
 public class CambioColorAlPasarMouse : MonoBehaviour
@@ -7,14 +7,17 @@ public class CambioColorAlPasarMouse : MonoBehaviour
     private Color colorOriginal;
 
     public GameObject dialogPanel;
-    public PanelOpciones panelOpciones;  
+    public PanelOpciones panelOpciones;
+
+    private BotonNodo botonNodo; 
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         colorOriginal = spriteRenderer.color;
 
-        // Asegura de que el panel esté desactivado al inicio.
+        botonNodo = GetComponent<BotonNodo>(); 
+
         if (dialogPanel != null)
             dialogPanel.SetActive(false);
     }
@@ -32,10 +35,10 @@ public class CambioColorAlPasarMouse : MonoBehaviour
     // Se llama al clic
     void OnMouseDown()
     {
-        if (dialogPanel != null)
+        if (dialogPanel != null && botonNodo != null && botonNodo.nodo != null)
         {
-            dialogPanel.SetActive(true);  
-            panelOpciones.ConfigurarObjetivo(transform); 
+            dialogPanel.SetActive(true);
+            panelOpciones.ConfigurarObjetivo(botonNodo.nodo); 
         }
     }
 }

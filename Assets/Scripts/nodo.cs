@@ -1,18 +1,30 @@
-using UnityEngine;
-public class Nodo<T>
-{
-    public T valor;
-    public Nodo<T> siguiente;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
-    //Constructor principal --- valor y siguiente
-    public Nodo(T valor, Nodo<T> siguiente)
+public class Nodo
+{
+    public bool esNodoInicio = false;
+
+    public string nombre;
+    public Vector3 posicion;
+    public List<Nodo> conexiones;
+    public GameObject go; 
+    public Enemigo enemigo;
+
+    public Nodo(string nombre, Vector3 posicion, GameObject go, Enemigo enemigo = null)
     {
-        this.valor = valor;
-        this.siguiente = siguiente;
+        this.nombre = nombre;
+        this.posicion = posicion;
+        this.go = go;
+        this.enemigo = enemigo;
+        conexiones = new List<Nodo>();
     }
 
-    //Sobrecarga --- solo valor, el nodo siguiente queda en null
-    public Nodo(T valor) : this(valor, null)
+    public void AgregarConexion(Nodo destino)
     {
+        if (!conexiones.Contains(destino))
+        {
+            conexiones.Add(destino);
+        }
     }
 }

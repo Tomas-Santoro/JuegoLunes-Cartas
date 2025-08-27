@@ -1,25 +1,53 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class SistemaDuelo : MonoBehaviour
 {
     public Jugador jugador;
     public Jugador ia;
 
-    public GameObject[] slotsCartasJugador; // Los 3 botones o imágenes de las cartas
-    public GameObject cartaPrefab; // Prefab de la carta visual
+    public GameObject[] slotsCartasJugador;
+    public GameObject cartaPrefab;
     private List<int> indicesSeleccionados = new List<int>();
 
-    public Image[] vidasJugador;
-    public Image[] vidasIA;
+    //public Image[] vidasJugador;
+    //public Image[] vidasIA;
+
+    public TMP_Text textoVidaJugador;
+    public TMP_Text textoVidaIA;
+
+
+    // Cartas visuales en combate
+    public Image cartaElegidaYo;
+    public Image cartaElegidaRival;
+
+    public Sprite spriteAtaque;
+    public Sprite spriteDefensa;
+    public Sprite spriteBuffeo;
 
     void Start()
     {
         jugador = new Jugador();
-        ia = new Jugador();
+
+        Nodo nodo = DatosJuego.instancia.nodoActual;
+
+        if (nodo != null && nodo.enemigo != null)
+        {
+            ia = new Jugador(nodo.enemigo.vida);
+            ia.nombre = nodo.enemigo.nombre;
+
+            Debug.Log($"Enfrentando a: {ia.nombre} con {ia.vida} de vida");
+        }
+        else
+        {
+            ia = new Jugador();
+            ia.nombre = "IA GenÃ©rica";
+            Debug.LogWarning("No se pudo asignar enemigo, usando IA por defecto");
+        }
 
         EmpezarNuevaRonda();
     }
@@ -31,11 +59,15 @@ public class SistemaDuelo : MonoBehaviour
 
         indicesSeleccionados.Clear();
 
-        // IA elige automáticamente
         List<int> indicesIA = new List<int> { 0, 1 };
         ia.ElegirCartas(indicesIA);
 
         MostrarCartasJugador();
+
+        // Ocultar cartas de combate por si estaban visibles
+        cartaElegidaYo.gameObject.SetActive(false);
+        cartaElegidaRival.gameObject.SetActive(false);
+        ActualizarVidas();
     }
 
     void MostrarCartasJugador()
@@ -43,7 +75,6 @@ public class SistemaDuelo : MonoBehaviour
         for (int i = 0; i < jugador.mano.Count; i++)
         {
             Carta carta = jugador.mano[i];
-
             CartaUI cartaUI = slotsCartasJugador[i].GetComponent<CartaUI>();
             cartaUI.ConfigurarCarta(carta, i, this);
         }
@@ -58,7 +89,6 @@ public class SistemaDuelo : MonoBehaviour
         }
 
         indicesSeleccionados.Add(indice);
-
         Carta cartaElegida = jugador.mano[indice];
         Debug.Log($"Seleccionaste la carta: {cartaElegida.tipo}");
 
@@ -68,7 +98,6 @@ public class SistemaDuelo : MonoBehaviour
             ResolverDuelos();
         }
     }
-
 
     public void ResolverDuelos()
     {
@@ -82,91 +111,117 @@ public class SistemaDuelo : MonoBehaviour
 
         for (int i = 0; i < 2; i++)
         {
-            //Carta cartaJugador = jugador.acciones.Dequeue();
-            //Carta cartaIA = ia.acciones.Dequeue();
             Carta cartaJugador = jugador.acciones.Desencolar();
             Carta cartaIA = ia.acciones.Desencolar();
 
             Debug.Log($"Resolviendo duelo: Jugador({cartaJugador.tipo}) vs IA({cartaIA.tipo})");
 
-            ResolverDuelo(cartaJugador, cartaIA);
+            // Mostrar visualmente las cartas
+            cartaElegidaYo.sprite = ObtenerSprite(cartaJugador.tipo);
+            cartaElegidaRival.sprite = ObtenerSprite(cartaIA.tipo);
 
-            ActualizarVidas(); // Actualizamos visualmente
+            cartaElegidaYo.gameObject.SetActive(true);
+            cartaElegidaRival.gameObject.SetActive(true);
+
+            // Pop animation
+            StartCoroutine(PopCard(cartaElegidaYo.rectTransform));
+            StartCoroutine(PopCard(cartaElegidaRival.rectTransform));
+
+            ResolverDuelo(cartaJugador, cartaIA);
+            ActualizarVidas();
 
             yield return new WaitForSeconds(1f);
         }
 
         if (jugador.vida <= 0)
         {
-            Debug.Log("Perdiste el duelo!");
             SceneManager.LoadScene("Derrota");
         }
         else if (ia.vida <= 0)
         {
-            Debug.Log("Ganaste el duelo!");
-
-         
             DatosJuego.instancia.batallasGanadas++;
+            DatosJuego.instancia.nodoDerrotado = DatosJuego.instancia.nodoActual;
 
-           
+            // ðŸ”¥ Eliminar del Ã¡rbol ABB de enemigos
+            Nodo nodo = DatosJuego.instancia.nodoActual;
+            if (MapaManager.arbolPoderEnemigos != null && nodo.enemigo != null)
+            {
+                MapaManager.arbolPoderEnemigos.Eliminar(nodo.enemigo);
+                Debug.Log($"Eliminado del ranking: {nodo.enemigo.nombre}");
+            }
+
             if (DatosJuego.instancia.batallasGanadas >= DatosJuego.instancia.batallasParaGanar)
-            {
-                SceneManager.LoadScene("Victoria"); 
-            }
+                SceneManager.LoadScene("Victoria");
             else
-            {
-                SceneManager.LoadScene("SampleScene"); 
-            }
+                SceneManager.LoadScene("SampleScene");
         }
+        /*else if (ia.vida <= 0)
+        {
+            DatosJuego.instancia.batallasGanadas++;
+            DatosJuego.instancia.nodoDerrotado = DatosJuego.instancia.nodoActual;
+
+            if (DatosJuego.instancia.batallasGanadas >= DatosJuego.instancia.batallasParaGanar)
+                SceneManager.LoadScene("Victoria");
+            else
+                SceneManager.LoadScene("SampleScene");
+        }*/
         else
         {
-            Debug.Log("Nueva ronda!");
             EmpezarNuevaRonda();
         }
+
     }
 
     private void ResolverDuelo(Carta jugadorCarta, Carta iaCarta)
     {
-        // Combinaciones básicas
         if (jugadorCarta.tipo == TipoCarta.Buffeo)
         {
             jugador.AplicarBuffeo();
-            Debug.Log("Jugador aplicó BUFFEO.");
         }
         if (iaCarta.tipo == TipoCarta.Buffeo)
         {
             ia.AplicarBuffeo();
-            Debug.Log("IA aplicó BUFFEO.");
         }
 
         if (jugadorCarta.tipo == TipoCarta.Ataque && iaCarta.tipo == TipoCarta.Defensa)
-        {
-            Debug.Log("Jugador atacó pero IA defendió. No pasa nada.");
             return;
-        }
-        if (iaCarta.tipo == TipoCarta.Ataque && jugadorCarta.tipo == TipoCarta.Defensa)
-        {
-            Debug.Log("IA atacó pero Jugador defendió. No pasa nada.");
-            return;
-        }
 
-        // Si llegamos hasta acá, aplicamos daños si corresponde
+        if (iaCarta.tipo == TipoCarta.Ataque && jugadorCarta.tipo == TipoCarta.Defensa)
+            return;
+
         if (jugadorCarta.tipo == TipoCarta.Ataque)
         {
-            int daño = jugador.tieneBuffeoActivo ? 2 : 1;
-            ia.vida -= daño;
-            Debug.Log($"Jugador hizo {daño} de daño a la IA.");
-            jugador.tieneBuffeoActivo = false; // Se gasta el buffeo
+            int daÃ±o = jugador.tieneBuffeoActivo ? 2 : 1;
+            ia.vida -= daÃ±o;
+            jugador.tieneBuffeoActivo = false;
         }
 
         if (iaCarta.tipo == TipoCarta.Ataque)
         {
-            int daño = ia.tieneBuffeoActivo ? 2 : 1;
-            jugador.vida -= daño;
-            Debug.Log($"IA hizo {daño} de daño al Jugador.");
-            ia.tieneBuffeoActivo = false; // Se gasta el buffeo
+            int daÃ±o = ia.tieneBuffeoActivo ? 2 : 1;
+            jugador.vida -= daÃ±o;
+            ia.tieneBuffeoActivo = false;
         }
     }
+
+    /*private void ActualizarVidas()
+    {
+        for (int i = 0; i < vidasJugador.Length; i++)
+            vidasJugador[i].enabled = i < jugador.vida;
+
+        for (int i = 0; i < vidasIA.Length; i++)
+            vidasIA[i].enabled = i < ia.vida;
+    }*/
+
+    private void ActualizarVidas()
+    {
+        if (textoVidaJugador != null)
+            textoVidaJugador.text = $"Vida: {jugador.vida}";
+
+        if (textoVidaIA != null)
+            textoVidaIA.text = $"Vida: {ia.vida}";
+    }
+
 
     public void MezclarYRobarDeNuevo()
     {
@@ -174,25 +229,6 @@ public class SistemaDuelo : MonoBehaviour
         {
             jugador.RobarMano();
             MostrarCartasJugador();
-            Debug.Log("Se mezcló el mazo y se robaron nuevas cartas.");
-        }
-        else
-        {
-            Debug.Log("No se puede mezclar después de elegir cartas.");
-        }
-    }
-
-
-    private void ActualizarVidas()
-    {
-        for (int i = 0; i < vidasJugador.Length; i++)
-        {
-            vidasJugador[i].enabled = i < jugador.vida;
-        }
-
-        for (int i = 0; i < vidasIA.Length; i++)
-        {
-            vidasIA[i].enabled = i < ia.vida;
         }
     }
 
@@ -201,9 +237,44 @@ public class SistemaDuelo : MonoBehaviour
         if (indicesSeleccionados.Contains(indice))
         {
             indicesSeleccionados.Remove(indice);
-            Debug.Log($"Deseleccionaste la carta: {jugador.mano[indice].tipo}");
         }
     }
 
+    private Sprite ObtenerSprite(TipoCarta tipo)
+    {
+        switch (tipo)
+        {
+            case TipoCarta.Ataque: return spriteAtaque;
+            case TipoCarta.Defensa: return spriteDefensa;
+            case TipoCarta.Buffeo: return spriteBuffeo;
+            default: return null;
+        }
+    }
 
+    private IEnumerator PopCard(RectTransform rect)
+    {
+        Vector3 escalaOriginal = rect.localScale;
+        Vector3 escalaMax = escalaOriginal * 1.2f;
+        float duracion = 0.1f;
+
+        float t = 0;
+        while (t < duracion)
+        {
+            rect.localScale = Vector3.Lerp(escalaOriginal, escalaMax, t / duracion);
+            t += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        rect.localScale = escalaMax;
+
+        t = 0;
+        while (t < duracion)
+        {
+            rect.localScale = Vector3.Lerp(escalaMax, escalaOriginal, t / duracion);
+            t += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        rect.localScale = escalaOriginal;
+    }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class CartaUI : MonoBehaviour
 {
@@ -9,12 +10,22 @@ public class CartaUI : MonoBehaviour
 
     public TMP_Text textoTipoCarta;
     private Button boton;
-    private Image imagenFondo; // Fondo de la carta para cambiar el color
+    private Image imagenFondo;
 
     private Color colorOriginal = Color.blue;
-    public Color colorSeleccionado = Color.cyan; // Color cuando la carta está seleccionada
+    public Color colorSeleccionado = Color.cyan;
 
     private bool estaSeleccionada = false;
+
+    public Image imagenCarta;
+    public Sprite spriteAtaque;
+    public Sprite spriteDefensa;
+    public Sprite spriteBuffeo;
+
+    // Movimiento visual
+    private Vector3 posicionOriginalImagen;
+    public float desplazamientoY = 50f;
+    public float duracionMovimiento = 0.08f;
 
     void Awake()
     {
@@ -25,9 +36,13 @@ public class CartaUI : MonoBehaviour
             colorOriginal = imagenFondo.color;
 
         if (boton != null)
-        {
             boton.onClick.AddListener(SeleccionarCarta);
-        }
+    }
+
+    void Start()
+    {
+        if (imagenCarta != null)
+            posicionOriginalImagen = imagenCarta.rectTransform.localPosition;
     }
 
     public void ConfigurarCarta(Carta carta, int indice, SistemaDuelo duelo)
@@ -36,31 +51,73 @@ public class CartaUI : MonoBehaviour
         indiceEnMano = indice;
         sistemaDuelo = duelo;
 
-        // Siempre que configuramos, la carta arranca no seleccionada
+        if (imagenCarta != null)
+        {
+            switch (carta.tipo)
+            {
+                case TipoCarta.Ataque:
+                    imagenCarta.sprite = spriteAtaque;
+                    break;
+                case TipoCarta.Defensa:
+                    imagenCarta.sprite = spriteDefensa;
+                    break;
+                case TipoCarta.Buffeo:
+                    imagenCarta.sprite = spriteBuffeo;
+                    break;
+            }
+        }
+
         estaSeleccionada = false;
         if (imagenFondo != null)
             imagenFondo.color = colorOriginal;
+
+        if (imagenCarta != null)
+            imagenCarta.rectTransform.localPosition = posicionOriginalImagen;
     }
 
     public void SeleccionarCarta()
     {
         if (estaSeleccionada)
         {
-            // Si ya estaba seleccionada -> la deseleccionamos
             estaSeleccionada = false;
             if (imagenFondo != null)
                 imagenFondo.color = colorOriginal;
 
+            if (imagenCarta != null)
+                StartCoroutine(MoverCarta(imagenCarta.rectTransform, posicionOriginalImagen));
+
             sistemaDuelo.DeseleccionarCarta(indiceEnMano);
+            Debug.Log("Carta Deseleccionada!!");
         }
         else
         {
-            // Si no estaba seleccionada -> la seleccionamos
             estaSeleccionada = true;
             if (imagenFondo != null)
                 imagenFondo.color = colorSeleccionado;
 
+            if (imagenCarta != null)
+            {
+                Vector3 destino = posicionOriginalImagen + new Vector3(0, desplazamientoY, 0);
+                StartCoroutine(MoverCarta(imagenCarta.rectTransform, destino));
+            }
+
             sistemaDuelo.CartaSeleccionada(indiceEnMano);
+            Debug.Log("Carta Seleccionada!!");
         }
+    }
+
+    IEnumerator MoverCarta(RectTransform carta, Vector3 destino)
+    {
+        Vector3 inicio = carta.localPosition;
+        float t = 0;
+
+        while (t < duracionMovimiento)
+        {
+            carta.localPosition = Vector3.Lerp(inicio, destino, t / duracionMovimiento);
+            t += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        carta.localPosition = destino;
     }
 }
